@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import co.analisys.equipment.controller.interfaces.EquipmentController;
 import co.analisys.equipment.model.Equipo;
 import co.analisys.equipment.service.intefaces.EquipoService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
