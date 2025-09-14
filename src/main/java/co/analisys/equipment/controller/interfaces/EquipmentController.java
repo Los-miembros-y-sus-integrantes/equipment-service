@@ -2,6 +2,7 @@ package co.analisys.equipment.controller.interfaces;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public interface EquipmentController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Equipo agregado exitosamente"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Solicitud inválida")
     })
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     Equipo agregarEquipo(@RequestBody Equipo equipo);
 
     @GetMapping()
@@ -33,5 +35,6 @@ public interface EquipmentController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Equipos obtenidos exitosamente"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No se encontraron equipos")
     })
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     List<Equipo> obtenerTodosEquipos();
 }
