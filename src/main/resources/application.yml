@@ -1,6 +1,6 @@
 spring:
   application:
-    name: equipo
+    name: equipo-service
   datasource:
     url: jdbc:h2:mem:equipodb
     driverClassName: org.h2.Driver
@@ -33,28 +33,15 @@ logging:
   level:
     org.springframework.security: DEBUG
 
-spring:
-  application:
-    name: clases
-  datasource:
-    url: jdbc:h2:mem:clasesdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: 
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console:
-      enabled: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:localhost:8761/eureka/%7D}
-  instance:
-      hostname: ${EUREKA_INSTANCE:equipment-service}
-
-ribbon:
-  eureka:
-    enabled: true
-  NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://localhost:8761/eureka}
+#  instance:
+#      hostname: ${EUREKA_INSTANCE:equipment-service}
+#
+#ribbon:
+#  eureka:
+#    enabled: true
+#  NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList

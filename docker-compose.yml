@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  equipment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gym-microservices/equipment-service:latest
+    container_name: equipment-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:equipodb
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak:8080/realms/gimnasio
+      - KEYCLOAK_CREDENTIALS_SECRET=6NKl3GnnBavPEW1sCJeO19swxYR97feR
+      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth
+      - KEYCLOAK_REALM=gimnasio
+      - KEYCLOAK_RESOURCE=equipment-service
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE=equipment-service
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks:
+      - gym-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  eureka-server:
+    image: gym-microservices/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - gym-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+networks:
+  gym-network:
+    driver: bridge
